@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  ぐるっとポン｜LPテンプレート ❻公募型（iframe埋め込み用）
+  背骨：①サムネ → ②概要(お題) → 景品 → ③応募フォームへ(単一導線) → ④応募規約
+  ============================================================================
+
+  ■ 置き場所／埋め込み／高さ測定：❶プレゼント型と同じ運用（下記スニペット）
+    <iframe src="https://＜公開URL＞/" width="100%" height="2200"
+            style="border:none;" frameborder="0" scrolling="no"></iframe>
+    ※ height は実寸に差し替え。Google Fontsが乗り切ってから document.body.scrollHeight で測る。
+
+  ■ この型の個性（❶との違い）
+    ・参加対象は「既存会員のみ」。導線は応募フォームへの1本だけ（取り違えの心配なし）。
+    ・肝は「お題に答えたくなる誘導」と「景品の魅力の見せ方」。→ お題と景品を大きく強調。
+
+  ■ 設計思想（基準書A準拠。崩さない）
+    世界観はサムネが担う／角丸カードで縦積みしない／区切りは帯見出し＋余白／緑は使わない。
+
+  ■ 用語：景品＝プレゼント。コイン・リサイクルポイントとは別物。文脈を明確に。
+  ■ GA4は親（キャンペーンページ）側で計測済み。ここには入れない。
+  ============================================================================
+-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <base target="_top">
+  <title>ぐるっとポン｜公募キャンペーン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ▼ブランドトークン：地色はサムネの色に準拠。公募＝じっくり考える型なので今回はブルー基調。
+       main=ブルー / CTA=オレンジ(行動色) / base=淡いブルー。緑は不使用。 */
+    :root {
+      --base:      #eef5fb;
+      --main:      #036eb8;
+      --main-deep: #025a97;
+      --cta:       #f39800;   /* 応募フォームへの単一CTA（行動色） */
+      --cta-deep:  #d97f00;
+      --ink:       #1f2a33;
+      --ink-soft:  #566571;
+      --font-display: "Zen Maru Gothic", sans-serif;
+      --font-body:    "Zen Kaku Gothic New", sans-serif;
+      --maxw: 640px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--font-body); color: var(--ink); background: var(--base); line-height: 1.75; overflow-x: hidden; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+    .img-frame { display: block; width: 100%; aspect-ratio: var(--ratio, 16 / 10); object-fit: cover; background: #dfe9f2; }
+
+    .sumne img { display: block; width: 100%; height: auto; }
+    .wave { display: block; width: 100%; height: 28px; }
+    .term { text-align: center; font-family: var(--font-display); font-weight: 700; color: var(--main-deep); font-size: clamp(15px,4.2vw,18px); padding: 6px 0 2px; }
+
+    .band {
+      display: inline-block; background: var(--main); color: #fff;
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(18px,5vw,23px); line-height: 1.3;
+      padding: 8px 30px 8px 16px; margin: 40px 0 16px;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
+    }
+    .band.first { margin-top: 30px; }
+
+    .lead { font-size: clamp(15px,4vw,16px); }
+    .lead strong { color: var(--main-deep); }
+
+    /* お題：この型の主役。大きく見せて「答えたくなる」ようにする（箱で囲わず、太い上下罫で強調） */
+    .theme {
+      text-align: center; margin: 20px 0 6px;
+      padding: 22px 8px;
+      border-top: 3px solid var(--main); border-bottom: 3px solid var(--main);
+    }
+    .theme .q { font-size: 14px; color: var(--main-deep); font-weight: 700; letter-spacing: .04em; }
+    .theme .body {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(21px,6vw,28px); line-height: 1.4; margin-top: 8px; color: var(--ink);
+    }
+
+    .prize { text-align: center; margin-top: 22px; }
+    .prize .name { font-family: var(--font-display); font-weight: 900; font-size: clamp(20px,6vw,28px); margin-top: 14px; line-height: 1.35; }
+    .prize .win { display: inline-block; margin-top: 8px; font-family: var(--font-display); font-weight: 900; color: var(--main); font-size: clamp(20px,6vw,26px); }
+    .prize .win em { font-style: normal; font-size: 1.5em; vertical-align: -2px; padding: 0 2px; }
+
+    /* ③ 単一導線：応募フォームへ */
+    .cta {
+      display: block; width: 100%; text-align: center; color: #fff; text-decoration: none;
+      font-family: var(--font-display); font-weight: 700; font-size: clamp(17px,4.8vw,20px);
+      padding: 18px 20px; border-radius: 12px; margin-top: 8px;
+      background: var(--cta); box-shadow: 0 8px 20px rgba(243,152,0,.28);
+      transition: transform .12s ease;
+    }
+    .cta:hover { transform: translateY(-2px); }
+    .cta:focus-visible { outline: 3px solid var(--main); outline-offset: 3px; }
+    .cta-note { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
+
+    .terms { margin-top: 12px; border-top: 2px solid #dbe6f0; padding-top: 18px; font-size: 13px; color: var(--ink-soft); line-height: 1.9; }
+    .terms li { margin-left: 1.1em; margin-bottom: 4px; }
+    .foot { text-align: center; font-size: 12px; color: var(--ink-soft); padding: 30px 20px 44px; }
+    @media (prefers-reduced-motion: reduce) { .cta { transition: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ① サムネ（世界観の主役。タイトル・期間は画像側に） -->
+  <div class="sumne">
+    <!-- ▼差し替え：メインビジュアル -->
+    <img class="img-frame" style="--ratio: 4 / 3" src="https://grt-pon.jp/media/images/placeholder-sumne.png" alt="公募キャンペーンのメインビジュアル">
+  </div>
+  <svg class="wave" viewBox="0 0 640 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,14 C120,0 200,28 320,14 C440,0 520,28 640,14 L640,28 L0,28 Z" style="fill:var(--base)"/>
+  </svg>
+
+  <div class="wrap">
+    <!-- ▼差し替え：応募期間 -->
+    <div class="term">応募期間：2026年○月○日（○）〜○月○日（○）</div>
+
+    <!-- ② 概要 → お題 -->
+    <div class="band first">キャンペーンについて</div>
+    <!-- ▼差し替え：概要文 -->
+    <p class="lead">下のお題にあなたの答えを送るだけ。抽選で<strong>すてきなプレゼント</strong>が当たります。肩の力を抜いて、気軽にご参加ください。</p>
+
+    <!-- お題（この型の主役。大きく） -->
+    <div class="theme">
+      <div class="q">今回のお題</div>
+      <!-- ▼差し替え：お題 -->
+      <div class="body">あなたが「これはリサイクルできた！」と<br>うれしかったモノは？</div>
+    </div>
+
+    <!-- 景品 -->
+    <div class="band">当たるプレゼント</div>
+    <div class="prize">
+      <!-- ▼差し替え：景品画像 -->
+      <img class="img-frame" style="--ratio: 16 / 10; border-radius:14px;" src="https://grt-pon.jp/media/images/placeholder-prize.png" alt="プレゼントの写真">
+      <!-- ▼差し替え：景品名・当選人数 -->
+      <div class="name">○○○○ 詰め合わせセット</div>
+      <div class="win">抽選で <em>20</em> 名様</div>
+    </div>
+
+    <!-- ③ 応募方法（単一導線：フォームへ） -->
+    <div class="band">応募方法</div>
+    <p class="lead" style="margin-bottom:14px;">下のボタンから応募フォームへ進み、お題への答えを送信してください。ぐるっとポン会員の方が対象です。</p>
+    <!-- ▼差し替え：応募フォームのURL -->
+    <a class="cta" href="https://sgfm.jp/f/＜フォームID＞">応募フォームへ進む</a>
+    <div class="cta-note">※ 応募には、ぐるっとポンへの会員登録が必要です。</div>
+
+    <!-- ④ 応募規約 -->
+    <div class="band">応募規約</div>
+    <ul class="terms">
+      <!-- ▼差し替え：規約項目 -->
+      <li>本キャンペーンは株式会社ステップスナインが主催します。</li>
+      <li>対象は期間中に応募フォームから回答を送信したぐるっとポン会員の方です。</li>
+      <li>当選者の発表は、賞品の発送をもってかえさせていただきます。</li>
+      <li>内容は予告なく変更・終了する場合があります。</li>
+    </ul>
+  </div>
+
+  <div class="foot">ぐるっとポン ｜ 株式会社ステップスナイン</div>
+</body>
+</html>
